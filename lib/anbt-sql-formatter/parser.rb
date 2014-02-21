@@ -269,6 +269,8 @@ class AnbtSql
           index += 1
         end
       }
+
+      tokens
     end
 
 
@@ -307,7 +309,7 @@ class AnbtSql
         @token_pos += 1
       }
 
-      concat_multiwords_keyword(tokens)
+      tokens = concat_multiwords_keyword(tokens)
 
       tokens
     end
