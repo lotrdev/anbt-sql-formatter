@@ -197,7 +197,7 @@ class AnbtSql
             
             # ','の前で改行
           elsif token.string == ","
-            index += insert_return_and_indent(tokens, index, indent, "x")
+            # Do not create a newline after commas
 
           elsif token.string == ";"
             # 2005.07.26 Tosiki Iga とりあえずセミコロンでSQL文がつぶれないように改良
