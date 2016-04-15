@@ -206,9 +206,6 @@ class AnbtSql
           end
           
         elsif token._type == AnbtSql::TokenConstants::KEYWORD # ****
-          # Output constants blue (#34)
-          token.string = "\e[34m#{token.string}\e[0m"
-
           # indentを２つ増やし、キーワードの後ろで改行
           if (equals_ignore_case(token.string, "DELETE") ||
               equals_ignore_case(token.string, "SELECT") ||
@@ -271,6 +268,9 @@ class AnbtSql
             end
             encounter_between = false
           end
+
+          # Output constants blue (#34)
+          token.string = "\e[34m#{token.string}\e[0m"
 
         elsif (token._type == AnbtSql::TokenConstants::COMMENT) # ****
 
