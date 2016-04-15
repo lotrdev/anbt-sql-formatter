@@ -27,6 +27,11 @@ class AnbtSql
 
     # 解析不可能なトークン. 通常のSQLではありえない。
     UNKNOWN = :unknown
+
+    # Colors
+    COLORS = {default: 39, black: 30, red: 31, green: 32, yellow: 33, blue: 34, magenta: 35, cyan: 36,
+              light_gray: 37, dark_gray: 90, light_red: 91, light_green: 92, light_yellow: 93,
+              light_blue: 94, light_magenta: 95, light_cyan: 96, white: 97}
   end
 
 
@@ -38,11 +43,13 @@ class AnbtSql
   #       デフォルト値 -1 の場合には「位置情報に意味がない」ことをあらわす。
   #
   class AbstractToken
-    attr_accessor :_type, :string, :pos
+    attr_accessor :_type, :string, :pos, :color
 
     @_type = nil
 
     @string = nil
+
+    @color = nil
 
     @pos = -1
 
@@ -56,15 +63,20 @@ class AnbtSql
     def to_s
       @string
     end
+
+    def colored_string
+      color.nil? ? string : "\e[#{@color}m#{@string}\e[0m"
+    end
   end
 
 
   class Token < AbstractToken
-    def initialize(type, string, pos=nil)
+    def initialize(type, string, pos=nil, color=nil)
       @_type = type
       @string = string
 
       @pos = pos || -1
+      @color = color
     end
   end
 end

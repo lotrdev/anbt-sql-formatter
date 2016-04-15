@@ -63,7 +63,7 @@ class AnbtSql
 
         # 変換結果を文字列に戻す。
         after = statements.map{|tokens|
-          tokens.map{ |t| t.string }.join("")
+          tokens.map{ |t| t.colored_string }.join("")
         }.join("\n;\n\n").sub( /\n\n\Z/, "" )
 
         after += "\n" if is_sql_ends_with_new_line
@@ -206,6 +206,9 @@ class AnbtSql
           end
           
         elsif token._type == AnbtSql::TokenConstants::KEYWORD # ****
+          # Output keyword constants in the color blue
+          token.color = TokenConstants::COLORS[:blue]
+
           # indentを２つ増やし、キーワードの後ろで改行
           if (equals_ignore_case(token.string, "DELETE") ||
               equals_ignore_case(token.string, "SELECT") ||
@@ -268,9 +271,6 @@ class AnbtSql
             end
             encounter_between = false
           end
-
-          # Output constants blue (#34)
-          token.string = "\e[34m#{token.string}\e[0m"
 
         elsif (token._type == AnbtSql::TokenConstants::COMMENT) # ****
 
