@@ -187,12 +187,16 @@ class AnbtSql
             @function_bracket.push( @rule.function?(prev.string) ? true : false )
             bracket_indent.push(indent)
             indent += 1
-            index += insert_return_and_indent(tokens, index + 1, indent)
+            # Don't do a new line if the parenthesis is for a function or an ignored constant
+            unless @function_bracket.peek || @rule.ignore_newline.include?(prev.string.upcase) ||
+                   @rule.ignore_newline.include?(tokens[index+1].string.upcase)
+              index += insert_return_and_indent(tokens, index + 1, indent)
+            end
 
             # indentを１つ増やし、')'の前と後ろで改行。
           elsif token.string == ")"
             indent = (bracket_indent.pop()).to_i
-            index += insert_return_and_indent(tokens, index, indent)
+            index += insert_return_and_indent(tokens, index + 1, indent) # put newline after parenthesis
             @function_bracket.pop()
             
             # ','の前で改行
@@ -236,10 +240,10 @@ class AnbtSql
           end
 
           # キーワードの前でindentを１つ減らして改行
-          if (equals_ignore_case(token.string, "END"))
-            indent -= 1
-            index += insert_return_and_indent(tokens, index, indent)
-          end
+          # if (equals_ignore_case(token.string, "END"))
+          #   indent -= 1
+          #   index += insert_return_and_indent(tokens, index, indent)
+          # end
 
           # キーワードの前で改行
           if @rule.kw_nl_x.any?{ |kw| equals_ignore_case(token.string, kw) }

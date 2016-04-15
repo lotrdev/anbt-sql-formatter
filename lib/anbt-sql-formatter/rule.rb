@@ -31,6 +31,8 @@ class AnbtSql
     attr_accessor :kw_minus1_indent_nl_x_plus1_indent
     attr_accessor :kw_nl_x
     attr_accessor :kw_nl_x_plus1_indent
+    # ignore newlines
+    attr_accessor :ignore_newline
 
     # キーワードの変換規則: 何もしない
     KEYWORD_NONE = 0
@@ -72,6 +74,8 @@ class AnbtSql
       # @kw_nl_x = %w(OR WHEN ELSE)
       
       @kw_multi_words = ["ORDER BY", "GROUP BY"]
+
+      @ignore_newline = []
 
       # 関数の名前。
       # Java版は初期値 null

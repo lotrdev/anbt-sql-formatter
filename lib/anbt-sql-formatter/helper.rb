@@ -23,6 +23,10 @@ class AnbtSql
     def pop
       @arr.pop
     end
+
+    def peek
+      @arr[-1]
+    end
   end
 
   module StringUtil
